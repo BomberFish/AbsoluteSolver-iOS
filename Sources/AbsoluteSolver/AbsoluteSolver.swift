@@ -12,9 +12,9 @@ public enum AbsoluteSolver {
             if owner == "root" {
                 // Do not show to Apple employees.
                 // They will NOT like it.
-                if MDC.isMDCSafe {
+                if AbsoluteSolver_MDC.isMDCSafe {
                     print("[AbsoluteSolver] Using MDC method for file \(at.path)")
-                    let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                    let success = AbsoluteSolver_MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                     if !success {
                         print("[AbsoluteSolver] MDC overwrite failed")
                         // Haptic.shared.notify(.error)
@@ -53,7 +53,7 @@ public enum AbsoluteSolver {
                 print("[AbsoluteSolver] Warning: Unexpected owner for file \(at.path)! Using MDC...")
                 // Haptic.shared.notify(.error)
                 // throw "Error replacing file at \(at.path) (Edit Style: AbsoluteSolver)\nUnexpected file owner!"
-                let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                let success = AbsoluteSolver_MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                 if !success {
                     print("[AbsoluteSolver] MDC overwrite failed")
                     // Haptic.shared.notify(.error)
