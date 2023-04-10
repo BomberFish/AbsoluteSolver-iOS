@@ -37,13 +37,31 @@ public enum AbsoluteSolver {
                     if !success {
                         print("[AbsoluteSolver] FM overwrite failed!")
                         // Haptic.shared.notify(.error)
-                        throw "AbsoluteSolver: Error replacing file at \(at.path) Using unsandboxed FileManager"
+                        throw "AbsoluteSolver: Error replacing file at \(at.path) (Using unsandboxed FileManager)"
                     } else {
                         print("[AbsoluteSolver] FM overwrite success!")
                         // Haptic.shared.notify(.success)
                     }
                 } catch {
-                    throw "AbsoluteSolver: Error replacing file at \(at.path) \n\(error.localizedDescription)"
+                    print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path): \(error.localizedDescription)")
+                    if AbsoluteSolver_MDC.isMDCSafe {
+                        print("[AbsoluteSolver] Using MDC method for file \(at.path)")
+                        let success = AbsoluteSolver_MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                        if !success {
+                            print("[AbsoluteSolver] MDC overwrite failed")
+                            // Haptic.shared.notify(.error)
+                            throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+                        } else {
+                            print("[AbsoluteSolver] MDC overwrite success!")
+                            // Haptic.shared.notify(.success)
+                        }
+                    } else {
+                        // you cant get ram out of thin air
+                        // also prevents catastrophic failure and corruption 👍👍👍
+                        print("[AbsoluteSolver] PANIC!!! OUT OF RAM!!! THIS IS REALLY REALLY REALLY BAD!!!!!")
+                        // Haptic.shared.notify(.error)
+                        throw "AbsoluteSolver: Overwrite failed!\nInsufficient RAM! Please reopen the app."
+                    }
                 }
             } else if owner == "unknown" {
                 print("[AbsoluteSolver] Error: Could not find owner for file \(at.path)?!")
@@ -90,21 +108,21 @@ public enum AbsoluteSolver {
                     print("[AbsoluteSolver] FM delete success!")
                     // Haptic.shared.notify(.success)
                 } catch {
-                    throw "Error deleting file at \(at.path) (Edit Style: AbsoluteSolver)\n\(error.localizedDescription)"
+                    throw "Error disassembling file at \(at.path) (Edit Style: AbsoluteSolver)\n\(error.localizedDescription)"
                 }
             } else if owner == "unknown" {
                 print("[AbsoluteSolver] Error: Could not find owner for file \(at.path)?!")
                 // Haptic.shared.notify(.error)
-                throw "AbsoluteSolver: Error deleting file at \(at.path)\nCould not find owner?!"
+                throw "AbsoluteSolver: Error disassembling file at \(at.path)\nCould not find owner?!"
             } else {
                 print("[AbsoluteSolver] Error: Unexpected owner for file \(at.path)!")
                 // Haptic.shared.notify(.error)
-                throw "AbsoluteSolver: Error deleting file at \(at.path)\nUnexpected file owner!"
+                throw "AbsoluteSolver: Error disassembling file at \(at.path)\nUnexpected file owner!"
             }
         } catch {
-            print("[AbsoluteSolver] Error deleting file \(at.path): \(error.localizedDescription)")
+            print("[AbsoluteSolver] Error disassembling file \(at.path): \(error.localizedDescription)")
             // Haptic.shared.notify(.error)
-            throw "AbsoluteSolver: Error deleting file at \(at.path)\n\(error.localizedDescription)"
+            throw "AbsoluteSolver: Error disassembling file at \(at.path)\n\(error.localizedDescription)"
         }
     }
 
@@ -145,7 +163,7 @@ public enum AbsoluteSolver {
         do {
             contents = try FileManager.default.contentsOfDirectory(atPath: path)
             for file in contents {
-                print("Deleting \(file)")
+                print("disassembling \(file)")
                 do {
                     try delete(at: URL(fileURLWithPath: path).appendingPathComponent(file))
                     currentfile += 1
@@ -155,7 +173,7 @@ public enum AbsoluteSolver {
                 }
             }
         } catch {
-            throw "AbsoluteSolver: Error deleting the contents of \(path): \(error.localizedDescription)"
+            throw "AbsoluteSolver: Error disassembling the contents of \(path): \(error.localizedDescription)"
         }
     }
 }
