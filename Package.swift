@@ -9,7 +9,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "AbsoluteSolver",
-            targets: ["AbsoluteSolver"]),
+            targets: ["AbsoluteSolver", "Exploit"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,9 +20,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "AbsoluteSolver",
+            dependencies: ["Exploit"]),
+        .target(
+            name: "Exploit",
             dependencies: []),
-        .testTarget(
-            name: "AbsoluteSolverTests",
-            dependencies: ["AbsoluteSolver"]),
     ]
 )
