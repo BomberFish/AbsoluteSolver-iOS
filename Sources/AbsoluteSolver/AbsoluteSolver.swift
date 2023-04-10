@@ -162,7 +162,14 @@ public enum AbsoluteSolver {
 
 public enum AbsoluteSolver_MDC {
     public static var isMDCSafe: Bool = true
-
+    
+    public static func restartBackboard() {
+        respringBackboard()
+    }
+    
+    public static func restartFrontboard() {
+        respringFrontboard()
+    }
     // MARK: - Literally black magic.
 
     public static func overwriteFileWithDataImpl(originPath: String, replacementData: Data) -> Bool {
