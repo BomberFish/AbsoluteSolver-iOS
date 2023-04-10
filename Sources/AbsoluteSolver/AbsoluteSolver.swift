@@ -41,9 +41,9 @@ public enum AbsoluteSolver {
                     }
                 } catch {
                     print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path): \(error.localizedDescription)")
-                    if AbsoluteSolver_MDC.isMDCSafe {
+                    if MDC.isMDCSafe {
                         print("[AbsoluteSolver] Using MDC method for file \(at.path)")
-                        let success = AbsoluteSolver_MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                        let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                         if !success {
                             print("[AbsoluteSolver] MDC overwrite failed")
                             // Haptic.shared.notify(.error)
@@ -68,7 +68,7 @@ public enum AbsoluteSolver {
                 print("[AbsoluteSolver] Warning: Unexpected owner for file \(at.path)! Using MDC...")
                 // Haptic.shared.notify(.error)
                 // throw "Error replacing file at \(at.path) (Edit Style: AbsoluteSolver)\nUnexpected file owner!"
-                let success = AbsoluteSolver_MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                 if !success {
                     print("[AbsoluteSolver] MDC overwrite failed")
                     // Haptic.shared.notify(.error)
