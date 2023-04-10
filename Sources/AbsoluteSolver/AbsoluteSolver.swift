@@ -246,8 +246,6 @@ public enum AbsoluteSolver_MDC {
         var errormessage = ""
         if #available(iOS 16.2, *) {
             throw "Your device is incompatible"
-        } else if #available(macOS 13.1, *) {
-            throw "Your device is incompatible"
         } else {
             grant_full_disk_access { error in
                 if error != nil {
