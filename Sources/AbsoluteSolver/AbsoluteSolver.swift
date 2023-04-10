@@ -1,5 +1,5 @@
 import Foundation
-import MDC
+import MacDirtyCow
 
 public enum AbsoluteSolver {
     public static func replace(at: URL, with: NSData) throws {
@@ -9,9 +9,9 @@ public enum AbsoluteSolver {
             if owner == "root" {
                 // Do not show to Apple employees.
                 // They will NOT like it.
-                if MDC.isMDCSafe {
+                if MacDirtyCow.isMDCSafe {
                     print("[AbsoluteSolver] Using MDC method for file \(at.path)")
-                    let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                    let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                     if !success {
                         print("[AbsoluteSolver] MDC overwrite failed")
                         // Haptic.shared.notify(.error)
@@ -41,9 +41,9 @@ public enum AbsoluteSolver {
                     }
                 } catch {
                     print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path): \(error.localizedDescription)")
-                    if MDC.isMDCSafe {
+                    if MacDirtyCow.isMDCSafe {
                         print("[AbsoluteSolver] Using MDC method for file \(at.path)")
-                        let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                        let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                         if !success {
                             print("[AbsoluteSolver] MDC overwrite failed")
                             // Haptic.shared.notify(.error)
@@ -68,7 +68,7 @@ public enum AbsoluteSolver {
                 print("[AbsoluteSolver] Warning: Unexpected owner for file \(at.path)! Using MDC...")
                 // Haptic.shared.notify(.error)
                 // throw "Error replacing file at \(at.path) (Edit Style: AbsoluteSolver)\nUnexpected file owner!"
-                let success = MDC.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                 if !success {
                     print("[AbsoluteSolver] MDC overwrite failed")
                     // Haptic.shared.notify(.error)
