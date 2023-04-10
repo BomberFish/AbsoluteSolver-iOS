@@ -230,6 +230,10 @@ public enum AbsoluteSolver_MDC {
         strcpy(buffer, serviceName)
         xpc_crasher(buffer)
     }
+    
+    public static func patch_installd() -> Bool {
+        return installd_patch()
+    }
 
     public static func unsandbox() throws {
         var errormessage = ""
