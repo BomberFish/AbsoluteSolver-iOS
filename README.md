@@ -22,5 +22,5 @@ AbsoluteSolver.readFile(path: String)
 AbsoluteSolver.delDirectoryContents(path: String, progress: ((Double, String)) -> ())
 
 // Plist Padding (returns Data)
-padPlist(replacementData: Data, filePath: String)
+AbsoluteSolver.padPlist(replacementData: Data, filePath: String)
 ```
