@@ -37,7 +37,7 @@ public enum AbsoluteSolver {
                     // also prevents catastrophic failure and corruption 👍👍👍
                     print("[AbsoluteSolver] PANIC!!! OUT OF RAM!!! THIS IS REALLY REALLY REALLY BAD!!!!!")
                     // Haptic.shared.notify(.error)
-                    throw "AbsoluteSolver: Overwrite failed!\nInsufficient RAM! Please reopen the app."
+                    throw "AbsoluteSolver:\n Overwrite failed!\nInsufficient RAM! Please reopen the app."
                 }
             } else if owner == "mobile" {
                 print("[AbsoluteSolver] Using FM method for file \(at.path)")
