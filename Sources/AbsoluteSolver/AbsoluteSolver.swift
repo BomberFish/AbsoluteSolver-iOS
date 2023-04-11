@@ -25,11 +25,11 @@ public enum AbsoluteSolver {
                     print("[AbsoluteSolver] Using MDC method for file \(at.path)")
                     let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                     if !success {
-                        print("[AbsoluteSolver] MDC overwrite failed")
+                        print("[AbsoluteSolver] MDC overwrite failed! X(")
                         // Haptic.shared.notify(.error)
                         throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
                     } else {
-                        print("[AbsoluteSolver] MDC overwrite success!")
+                        print("[AbsoluteSolver] MDC overwrite success! X)")
                         // Haptic.shared.notify(.success)
                     }
                 } else {
@@ -44,11 +44,11 @@ public enum AbsoluteSolver {
                 do {
                     let success = with.write(to: at, atomically: true)
                     if !success {
-                        print("[AbsoluteSolver] FM overwrite failed!")
+                        print("[AbsoluteSolver] FM overwrite failed! X(")
                         // Haptic.shared.notify(.error)
                         throw "AbsoluteSolver: Error replacing file at \(at.path) (Using unsandboxed FileManager)"
                     } else {
-                        print("[AbsoluteSolver] FM overwrite success!")
+                        print("[AbsoluteSolver] FM overwrite success! X)")
                         // Haptic.shared.notify(.success)
                     }
                 } catch {
@@ -191,6 +191,7 @@ public enum AbsoluteSolver {
                 }
             }
         } catch {
+            print( "AbsoluteSolver: Error disassembling the contents of \(path): \(error.localizedDescription)! X(")
             throw "AbsoluteSolver: Error disassembling the contents of \(path): \(error.localizedDescription)"
         }
     }
