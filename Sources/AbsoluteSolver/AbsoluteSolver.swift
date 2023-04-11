@@ -293,34 +293,9 @@ public enum AbsoluteSolver {
     }
     
     public static func replaceDDICert() throws {
-        var pem: Data? = nil 
-        if let url = URL(string: "https://bomberfish.ca/misc/ddi.pem") {
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                if let error = error {
-                    print("Error: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse,
-                      (200...299).contains(httpResponse.statusCode) else {
-                    print("AbsoluteSolver: Unexpected response status code")
-                    return
-                }
-                
-                if let data = data,
-                   let contents = String(data: data, encoding: .utf8) {
-                    print(contents)
-                    pem = data
-                }
-            }
-            
-            task.resume()
-        } else {
-            throw "AbsoluteSolver: Couldn't get url from string??? WTF????"
-        }
-        
+        var pem: Data = Data(base64Encoded: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMyRENDQWtHZ0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREJlTVFzd0NRWURWUVFHRXdKRFFURUwKTUFrR0ExVUVDQXdDUWtNeEpUQWpCZ05WQkFvTUhFb3VReTRnU21WdWMyVnVJR2x1SUZOd1lXRmhZV0ZqWlNFaApJU0V4R3pBWkJnTlZCQU1NRWtGaWMyOXNkWFJsVTI5c2RtVnlJRVJFU1RBZUZ3MHdOekEwTVRZeU1qVTFNekZhCkZ3MHhOREEwTVRZeU1qVTFNekZhTUY0eEN6QUpCZ05WQkFZVEFrTkJNUXN3Q1FZRFZRUUlEQUpDUXpFbE1DTUcKQTFVRUNnd2NTaTVETGlCS1pXNXpaVzRnYVc0Z1UzQmhZV0ZoWVdObElTRWhJVEViTUJrR0ExVUVBd3dTUVdKegpiMngxZEdWVGIyeDJaWElnUkVSSk1JR2ZNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0R05BRENCaVFLQmdRRE9vWFI3ClE5eVdqVWVxQUEwdCtVZTJUUnR3MG5nc1htdmdhVE9xSWp3Y3E1ZGNZRFdBZU9rdnZ0VGdNUVNHN2VDeVlBclMKQ29RMjVMVXlhRk1LV1NQVG9RUFRscnhhYmRDNXJkRzNqdHBjUXJVUzJJWXZ0d0E0aUE3SkoyL25BUEQ3OWEyWgo5a2VKaEUzbGVKZ1A2N3BnSXBVS2RkRWxPc3ZOT0lhS2g5a3ZYUUlEQVFBQm80R2xNSUdpTUIwR0ExVWREZ1FXCkJCUlk5TE54STJ0MEFRYXBmZFV6bjRaOHNnWjdhVEJ3QmdOVkhTTUVhVEJub1dLa1lEQmVNUXN3Q1FZRFZRUUcKRXdKRFFURUxNQWtHQTFVRUNBd0NRa014SlRBakJnTlZCQW9NSEVvdVF5NGdTbVZ1YzJWdUlHbHVJRk53WVdGaApZV0ZqWlNFaElTRXhHekFaQmdOVkJBTU1Fa0ZpYzI5c2RYUmxVMjlzZG1WeUlFUkVTWUlCQVRBUEJnTlZIUk1CCkFmOEVCVEFEQVFIL01BMEdDU3FHU0liM0RRRUJDd1VBQTRHQkFJbFZVMkN0Q3NtelRhOW1LWlVHYW1FSTBqMDgKOTBDeU9nL1Nqei8wQm1QRkMwTlhGNjI5dUlLVjRoMFV5cjQvVGZWZG01eW5LWG42MWtXMEhjOTR2STh5RnY2YworMlExS0p3TDhOWjgrVm9XNjNoZWlUOGpXbmEvY29BZHJicFZ2SGFhbWgvNkZXbit0YnNtZlg3c1MvYmxaN2Z2CndYRjFBWDZkRk5MUEFVYmoKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")!
         do {
-            try replace(at: URL(fileURLWithPath: "/System/Library/Lockdown/iPhoneDebug.pem"), with: pem! as NSData)
+            try replace(at: URL(fileURLWithPath: "/System/Library/Lockdown/iPhoneDebug.pem"), with: pem as NSData)
         }
     }
 }
