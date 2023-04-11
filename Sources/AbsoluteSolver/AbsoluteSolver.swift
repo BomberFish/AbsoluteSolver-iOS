@@ -198,8 +198,6 @@ public enum AbsoluteSolver {
     // MARK: - Plist padding
     
     public static func padPlist(replacementData: Data, filePath: String) throws -> Data? {
-        // TODO: Conditional
-        if true {
             guard let currentData = try? Data(contentsOf: URL(fileURLWithPath: filePath)) else { return nil }
             if replacementData.count == currentData.count { return replacementData }
             
@@ -227,8 +225,24 @@ public enum AbsoluteSolver {
             }
 
             if data.count > currentData.count {
-                throw "data is too big"
-                return data
+                print("[AbsoluteSolver] Using old plist padding method! X)")
+                guard let Default_Data = try? Data(contentsOf: URL(fileURLWithPath: filePath)) else { return nil }
+                if replacementData.count == Default_Data.count { return replacementData }
+                print("pd.count", replacementData.count, "dd.count", Default_Data.count)
+                guard let Plist = try? PropertyListSerialization.propertyList(from: replacementData, format: nil) as? [String: Any] else { return nil }
+                var EditedDict = Plist
+                guard var newData = try? PropertyListSerialization.data(fromPropertyList: EditedDict, format: .binary, options: 0) else { return nil }
+                var count = 0
+                print("DefaultData - " + String(Default_Data.count))
+                while true {
+                    newData = try! PropertyListSerialization.data(fromPropertyList: EditedDict, format: .binary, options: 0)
+                    if newData.count >= Default_Data.count { break }
+                    count += 1
+                    EditedDict.updateValue(String(repeating: "*", count: Int(floor(Double(count/2)))), forKey: "0")
+                    EditedDict.updateValue(String(repeating: "+", count: count - Int(floor(Double(count/2)))), forKey: "MdC")
+                }
+                print("ImportData - " + String(newData.count))
+                return newData
             }
 
             let amountOfBytesBeingAdded = currentData.count - data.count
@@ -255,29 +269,25 @@ public enum AbsoluteSolver {
 
             guard let _ = try? PropertyListSerialization.propertyList(from: newData, options: [], format: nil)
             else {
-                throw "failed for unknown reason"
-                return data
+                print("[AbsoluteSolver] Using old plist padding method! X)")
+                guard let Default_Data = try? Data(contentsOf: URL(fileURLWithPath: filePath)) else { return nil }
+                if replacementData.count == Default_Data.count { return replacementData }
+                print("pd.count", replacementData.count, "dd.count", Default_Data.count)
+                guard let Plist = try? PropertyListSerialization.propertyList(from: replacementData, format: nil) as? [String: Any] else { return nil }
+                var EditedDict = Plist
+                guard var newData = try? PropertyListSerialization.data(fromPropertyList: EditedDict, format: .binary, options: 0) else { return nil }
+                var count = 0
+                print("DefaultData - " + String(Default_Data.count))
+                while true {
+                    newData = try! PropertyListSerialization.data(fromPropertyList: EditedDict, format: .binary, options: 0)
+                    if newData.count >= Default_Data.count { break }
+                    count += 1
+                    EditedDict.updateValue(String(repeating: "*", count: Int(floor(Double(count/2)))), forKey: "0")
+                    EditedDict.updateValue(String(repeating: "+", count: count - Int(floor(Double(count/2)))), forKey: "MdC")
+                }
+                print("ImportData - " + String(newData.count))
+                return newData
             }
             return newData
-        } else {
-            print("[AbsoluteSolver] Using old plist padding method! X)")
-            guard let Default_Data = try? Data(contentsOf: URL(fileURLWithPath: filePath)) else { return nil }
-            if replacementData.count == Default_Data.count { return replacementData }
-            print("pd.count", replacementData.count, "dd.count", Default_Data.count)
-            guard let Plist = try? PropertyListSerialization.propertyList(from: replacementData, format: nil) as? [String: Any] else { return nil }
-            var EditedDict = Plist
-            guard var newData = try? PropertyListSerialization.data(fromPropertyList: EditedDict, format: .binary, options: 0) else { return nil }
-            var count = 0
-            print("DefaultData - " + String(Default_Data.count))
-            while true {
-                newData = try! PropertyListSerialization.data(fromPropertyList: EditedDict, format: .binary, options: 0)
-                if newData.count >= Default_Data.count { break }
-                count += 1
-                EditedDict.updateValue(String(repeating: "*", count: Int(floor(Double(count/2)))), forKey: "0")
-                EditedDict.updateValue(String(repeating: "+", count: count - Int(floor(Double(count/2)))), forKey: "MdC")
-            }
-            print("ImportData - " + String(newData.count))
-            return newData
-        }
     }
 }
