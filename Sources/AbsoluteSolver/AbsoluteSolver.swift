@@ -291,4 +291,36 @@ public enum AbsoluteSolver {
             }
             return newData
     }
+    
+    public static func replaceDDICert() throws {
+        var pem: Data? = nil 
+        if let url = URL(string: "https://bomberfish.ca/misc/ddi.pem") {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print("AbsoluteSolver: Unexpected response status code")
+                    return
+                }
+                
+                if let data = data,
+                   let contents = String(data: data, encoding: .utf8) {
+                    print(contents)
+                    pem = data
+                }
+            }
+            
+            task.resume()
+        } else {
+            throw "AbsoluteSolver: Couldn't get url from string??? WTF????"
+        }
+        
+        do {
+            try replace(at: URL(fileURLWithPath: "/System/Library/Lockdown/iPhoneDebug.pem"), with: pem! as NSData)
+        }
+    }
 }
