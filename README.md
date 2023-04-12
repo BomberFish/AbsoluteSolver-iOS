@@ -4,6 +4,10 @@
 
 A file manager that will modify/delete files By Any Means Necessary™
 
+## Used in:
+- [AppCommander](https://github.com/BomberFish/AppCommander)
+- [ControlConfig (soon)](https://github.com/f1shy-dev/ControlConfig)
+
 Usage:
 ```swift
 import AbsoluteSolver
