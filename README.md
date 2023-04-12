@@ -2,6 +2,8 @@
 
 A file manager that will modify/delete files By Any Means Necessary™
 
+![Absolute Solver icon](./absolutesolver.png)
+
 Usage:
 ```swift
 import AbsoluteSolver
