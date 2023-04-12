@@ -1,4 +1,4 @@
-![Absolute Solver icon](./absolutesolver.png)
+![Absolute Solver icon](./Absolute_Solver.png)
 
 # Absolute Solver
 
