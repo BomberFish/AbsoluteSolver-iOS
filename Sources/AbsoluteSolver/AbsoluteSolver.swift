@@ -16,6 +16,7 @@ public enum AbsoluteSolver {
     public static func replace(at: URL, with: NSData) throws {
         do {
             print("[AbsoluteSolver] Replacing \(at.path)! X)")
+            var fm_error: String? = nil
             let fileAttributes = try FileManager.default.attributesOfItem(atPath: at.path)
             let owner = fileAttributes[.ownerAccountName] as? String ?? "unknown"
             if owner == "root" {
@@ -46,14 +47,19 @@ public enum AbsoluteSolver {
                     print("[AbsoluteSolver] FM overwrite success! X)")
                 } catch {
                     // print("[AbsoluteSolver] FM overwrite failed! X(")
-                    print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path). Error: \(error.localizedDescription)")
+                    fm_error = error.localizedDescription
+                    print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path). Error: \(fm_error)")
                     if MacDirtyCow.isMDCSafe {
                         print("[AbsoluteSolver] Using MDC method for file \(at.path)")
                         let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                         if !success {
                             print("[AbsoluteSolver] MDC overwrite failed")
                             // Haptic.shared.notify(.error)
-                            throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+                            if fm_error != nil {
+                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC). Unsandboxed FileManager returned error \(fm_error)"
+                            } else {
+                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+                            }
                         } else {
                             print("[AbsoluteSolver] MDC overwrite success!")
                             // Haptic.shared.notify(.success)
