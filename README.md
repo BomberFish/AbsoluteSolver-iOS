@@ -1,8 +1,8 @@
+![Absolute Solver icon](./absolutesolver.png)
+
 # Absolute Solver
 
 A file manager that will modify/delete files By Any Means Necessary™
-
-![Absolute Solver icon](./absolutesolver.png)
 
 Usage:
 ```swift
