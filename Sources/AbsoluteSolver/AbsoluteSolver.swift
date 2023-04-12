@@ -42,17 +42,11 @@ public enum AbsoluteSolver {
             } else if owner == "mobile" {
                 print("[AbsoluteSolver] Using FM method for file \(at.path)")
                 do {
-                    let success = with.write(to: at, atomically: true)
-                    if !success {
-                        print("[AbsoluteSolver] FM overwrite failed! X(")
-                        // Haptic.shared.notify(.error)
-                        throw "AbsoluteSolver: Error replacing file at \(at.path) (Using unsandboxed FileManager)"
-                    } else {
-                        print("[AbsoluteSolver] FM overwrite success! X)")
-                        // Haptic.shared.notify(.success)
-                    }
+                    try with.write(to: at, options: .atomic)
+                    print("[AbsoluteSolver] FM overwrite success! X)")
                 } catch {
-                    print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path): \(error.localizedDescription)")
+                    // print("[AbsoluteSolver] FM overwrite failed! X(")
+                    print("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path). Error: \(error.localizedDescription)")
                     if MacDirtyCow.isMDCSafe {
                         print("[AbsoluteSolver] Using MDC method for file \(at.path)")
                         let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
