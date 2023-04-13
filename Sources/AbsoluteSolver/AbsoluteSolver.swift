@@ -56,7 +56,7 @@ public enum AbsoluteSolver {
                             print("[AbsoluteSolver] MDC overwrite failed")
                             // Haptic.shared.notify(.error)
                             if fm_error != nil {
-                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC). Unsandboxed FileManager returned error \(fm_error ?? "Unknown")"
+                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC). Unsandboxed FileManager returned error: \(fm_error ?? "Unknown")"
                             } else {
                                 throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
                             }
