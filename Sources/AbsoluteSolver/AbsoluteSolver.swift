@@ -14,6 +14,11 @@ public enum AbsoluteSolver {
     // MARK: - Replace file
     
     public static func replace(at: URL, with: NSData) throws {
+        // In case the specified path is empty
+        if at == URL(string: "") {
+            throw "AbsoluteSolver Error: Can I get a location?"
+        }
+        
         do {
             print("[AbsoluteSolver] Replacing \(at.path)! X)")
             var fm_error: String? = nil
@@ -100,6 +105,10 @@ public enum AbsoluteSolver {
     // MARK: - Delete files
     // chainsaw hand time
     public static func delete(at: URL) throws {
+        // In case the specified path is empty
+        if at == URL(string: "") {
+            throw "AbsoluteSolver Error: Can I get a location?"
+        }
         print("[AbsoluteSolver] Disassembling \(at.path)! X)")
         do {
             let fileAttributes = try FileManager.default.attributesOfItem(atPath: at.path)
@@ -141,6 +150,10 @@ public enum AbsoluteSolver {
     // MARK: - copy files
     
     public static func copy(at: URL, to: URL) throws {
+        // In case the specified path is empty
+        if at == URL(string: "") || to == URL(string: "") {
+            throw "AbsoluteSolver Error: Can I get a location?"
+        }
         do {
             do {
                 try FileManager.default.copyItem(at: at, to: to)
@@ -159,6 +172,10 @@ public enum AbsoluteSolver {
     // MARK: - reads file contents
     
     public static func readFile(path: String) throws -> Data {
+        // In case the specified path is empty
+        if path == "" {
+            throw "AbsoluteSolver Error: Can I get a location?"
+        }
         do {
             return (try Data(contentsOf: URL(fileURLWithPath: path)))
         } catch {
@@ -176,6 +193,10 @@ public enum AbsoluteSolver {
     // MARK: - deletes all the contents of directories. usually.
 
     public static func delDirectoryContents(path: String, progress: ((Double, String)) -> ()) throws {
+        // In case the specified path is empty
+        if path == "" {
+            throw "AbsoluteSolver Error: Can I get a location?"
+        }
         var contents = [""]
         var currentfile = 0
         do {
@@ -199,6 +220,10 @@ public enum AbsoluteSolver {
     // MARK: - Plist padding
     
     public static func padPlist(replacementData: Data, filePath: String) throws -> Data? {
+        // In case the specified path is empty
+        if filePath == "" {
+            throw "AbsoluteSolver Error: Can I get a location?"
+        }
             guard let currentData = try? Data(contentsOf: URL(fileURLWithPath: filePath)) else { return nil }
             if replacementData.count == currentData.count { return replacementData }
             
