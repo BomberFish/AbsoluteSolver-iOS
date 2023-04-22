@@ -180,8 +180,10 @@ public enum AbsoluteSolver {
     public static func readFile(path: String, progress: ((String)) -> () = {progress in
         print(progress)
     }) throws -> Data {
+        progress("[AbsoluteSolver] Reading from \(path)! X)")
         // In case the specified path is empty
         if path == "" {
+            progress("[AbsoluteSolver] path is empty? wtf?")
             throw "AbsoluteSolver Error: Can I get a location?"
         }
         do {
