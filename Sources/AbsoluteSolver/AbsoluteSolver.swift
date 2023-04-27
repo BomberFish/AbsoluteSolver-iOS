@@ -31,15 +31,21 @@ public enum AbsoluteSolver {
                 // They will NOT like it.
                 if MacDirtyCow.isMDCSafe {
                     progress("[AbsoluteSolver] Using MDC method for file \(at.path)")
-                    let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
-                    if !success {
-                        progress("[AbsoluteSolver] MDC overwrite failed! X(")
-                        // Haptic.shared.notify(.error)
-                        throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
-                    } else {
+                    do {
+                        try MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
                         progress("[AbsoluteSolver] MDC overwrite success! X)")
-                        // Haptic.shared.notify(.success)
+                    } catch {
+                        progress("[AbsoluteSolver] MDC overwrite failed! X(")
+                        throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC): \(error.localizedDescription)"
                     }
+//                    if !success {
+//                        progress("[AbsoluteSolver] MDC overwrite failed! X(")
+//                        // Haptic.shared.notify(.error)
+//                        throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+//                    } else {
+//                        progress("[AbsoluteSolver] MDC overwrite success! X)")
+//                        // Haptic.shared.notify(.success)
+//                    }
                 } else {
                     // you cant get ram out of thin air
                     // also prevents catastrophic failure and corruption 👍👍👍
@@ -58,25 +64,36 @@ public enum AbsoluteSolver {
                     progress("[AbsoluteSolver] Warning: FM overwrite failed, using MDC for \(at.path). Error: \(fm_error ?? "Unknown")")
                     if MacDirtyCow.isMDCSafe {
                         progress("[AbsoluteSolver] Using MDC method for file \(at.path)")
-                        let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
-                        if !success {
-                            progress("[AbsoluteSolver] MDC overwrite failed")
-                            // Haptic.shared.notify(.error)
+                        // let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                        do {
+                            try MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                            progress("[AbsoluteSolver] MDC overwrite success! X)")
+                        } catch {
+                            progress("[AbsoluteSolver] MDC overwrite failed! X(")
                             if fm_error != nil {
-                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC). Unsandboxed FileManager returned error: \(fm_error ?? "Unknown")"
+                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC): \(error.localizedDescription). Unsandboxed FileManager returned error: \(fm_error ?? "Unknown")"
                             } else {
-                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC): \(error.localizedDescription)"
                             }
-                        } else {
-                            progress("[AbsoluteSolver] MDC overwrite success!")
-                            // Haptic.shared.notify(.success)
                         }
+//                        if !success {
+//                            progress("[AbsoluteSolver] MDC overwrite failed")
+//                            // Haptic.shared.notify(.error)
+//                            if fm_error != nil {
+//                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC). Unsandboxed FileManager returned error: \(fm_error ?? "Unknown")"
+//                            } else {
+//                                throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+//                            }
+//                        } else {
+//                            progress("[AbsoluteSolver] MDC overwrite success!")
+//                            // Haptic.shared.notify(.success)
+//                        }
                     } else {
                         // you cant get ram out of thin air
                         // also prevents catastrophic failure and corruption 👍👍👍
                         progress("[AbsoluteSolver] PANIC!!! OUT OF RAM!!! THIS IS REALLY REALLY REALLY BAD!!!!!")
                         // Haptic.shared.notify(.error)
-                        throw "AbsoluteSolver: Overwrite failed!\nInsufficient RAM! Please reopen the app."
+                        throw "AbsoluteSolver: Guru Meditation: Insufficient RAM! Please reopen the app."
                     }
                 }
             } else if owner == "unknown" {
