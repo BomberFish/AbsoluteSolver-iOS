@@ -104,15 +104,22 @@ public enum AbsoluteSolver {
                 progress("[AbsoluteSolver] Warning: Unexpected owner for file \(at.path)! Using MDC...")
                 // Haptic.shared.notify(.error)
                 // throw "Error replacing file at \(at.path) (Edit Style: AbsoluteSolver)\nUnexpected file owner!"
-                let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
-                if !success {
-                    progress("[AbsoluteSolver] MDC overwrite failed")
-                    // Haptic.shared.notify(.error)
-                    throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
-                } else {
-                    progress("[AbsoluteSolver] MDC overwrite success!")
-                    // Haptic.shared.notify(.success)
+                do {
+                    try MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+                    progress("[AbsoluteSolver] MDC overwrite success! X)")
+                } catch {
+                    progress("[AbsoluteSolver] MDC overwrite failed! X(")
+                    throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC): \(error.localizedDescription)"
                 }
+//                let success = MacDirtyCow.overwriteFileWithDataImpl(originPath: at.path, replacementData: Data(with))
+//                if !success {
+//                    progress("[AbsoluteSolver] MDC overwrite failed")
+//                    // Haptic.shared.notify(.error)
+//                    throw "AbsoluteSolver: Error replacing file at \(at.path) (Using MDC)"
+//                } else {
+//                    progress("[AbsoluteSolver] MDC overwrite success!")
+//                    // Haptic.shared.notify(.success)
+//                }
             }
         } catch {
             progress("[AbsoluteSolver] Error: \(error.localizedDescription)")
